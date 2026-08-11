@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
@@ -26,6 +28,27 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val searchInput = findViewById<EditText>(R.id.searchInput)
+        val searchResult = findViewById<TextView>(R.id.searchResult)
+
+        findViewById<Button>(R.id.btnSearch).setOnClickListener {
+            val number = searchInput.text.toString().trim()
+            if (number.isEmpty()) {
+                Toast.makeText(this, "Number daalo pehle", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            searchResult.text = "Searching..."
+            FirestoreHelper.lookupNumber(number) { name, isSpam ->
+                runOnUiThread {
+                    if (name != null) {
+                        searchResult.text = if (isSpam) "$name ⚠️ (Likely Spam)" else "✅ $name"
+                    } else {
+                        searchResult.text = "Koi record nahi mila is number ka"
+                    }
+                }
+            }
+        }
 
         findViewById<Button>(R.id.btnGrantPermissions).setOnClickListener {
             requestAllPermissions()
@@ -55,7 +78,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    /** Android requires the user to explicitly set this app as the Caller ID / Spam app */
     private fun requestDefaultCallScreeningRole() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             val roleManager = getSystemService(RoleManager::class.java)
@@ -84,7 +106,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    /** Reads the user's local contacts and uploads number->name pairs to Firestore */
     private fun syncContactsToDatabase() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_CONTACTS)
             != PackageManager.PERMISSION_GRANTED
