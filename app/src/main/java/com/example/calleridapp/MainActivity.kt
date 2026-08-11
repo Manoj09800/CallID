@@ -6,13 +6,17 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.CallLog
 import android.provider.ContactsContract
 import android.provider.Settings
+import android.text.format.DateFormat
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import android.view.Gravity
 import android.widget.Button
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 
@@ -65,6 +69,45 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnSyncContacts).setOnClickListener {
             syncContactsToDatabase()
         }
+
+        loadRecentCalls()
+    }
+
+    private fun loadRecentCalls() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_CALL_LOG)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+
+        val container = findViewById<LinearLayout>(R.id.recentCallsContainer)
+        container.removeAllViews()
+
+        val calls = CallLogHelper.getRecentCalls(this)
+        for (call in calls) {
+            val row = TextView(this)
+            row.text = call.number
+            row.textSize = 16f
+            row.setPadding(16, 24, 16, 24)
+            row.gravity = Gravity.CENTER_VERTICAL
+            row.setOnClickListener {
+                val intent = Intent(this, ContactProfileActivity::class.java)
+                intent.putExtra("number", call.number)
+                startActivity(intent)
+            }
+            container.addView(row)
+
+            FirestoreHelper.lookupNumber(call.number) { name, isSpam ->
+                runOnUiThread {
+                    val label = if (name != null) {
+                        if (isSpam) "$name ⚠️ Spam — ${call.number}" else "$name — ${call.number}"
+                    } else {
+                        call.number
+                    }
+                    row.text = label
+                }
+            }
+        }
     }
 
     private fun requestAllPermissions() {
@@ -75,6 +118,7 @@ class MainActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(this, notGranted.toTypedArray(), 100)
         } else {
             Toast.makeText(this, "All permissions already granted", Toast.LENGTH_SHORT).show()
+            loadRecentCalls()
         }
     }
 
