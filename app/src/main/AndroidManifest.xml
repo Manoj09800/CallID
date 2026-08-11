@@ -24,6 +24,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ContactProfileActivity"
+            android:exported="false" />
 
         <!-- This service lets our app screen/identify incoming calls (Android 10+) -->
         <service
