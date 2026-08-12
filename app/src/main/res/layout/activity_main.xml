@@ -1,113 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background_light">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="16dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="CallerID"
-            android:textSize="26sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp" />
-
+        <!-- Top App Title Bar -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginBottom="8dp">
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
 
-            <EditText
-                android:id="@+id/searchInput"
+            <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="Number search karo"
-                android:inputType="phone"
-                android:padding="12dp" />
-
-            <Button
-                android:id="@+id/btnSearch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Search" />
+                android:text="CallerID"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/searchResult"
+        <!-- Search Card -->
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:padding="12dp"
-            android:layout_marginBottom="24dp" />
+            app:cardCornerRadius="14dp"
+            app:cardElevation="4dp"
+            android:layout_marginBottom="16dp">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#CCCCCC"
-            android:layout_marginBottom="16dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/searchInput"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Number search karo"
+                        android:inputType="phone"
+                        android:padding="10dp" />
+
+                    <Button
+                        android:id="@+id/btnSearch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Search"
+                        android:backgroundTint="@color/primary" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/searchResult"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:paddingTop="10dp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Recent Calls Section -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Recent Calls"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:textColor="@color/primary_dark"
             android:layout_marginBottom="8dp" />
 
-        <LinearLayout
-            android:id="@+id/recentCallsContainer"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="24dp" />
+            app:cardCornerRadius="14dp"
+            app:cardElevation="4dp"
+            android:layout_marginBottom="16dp">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#CCCCCC"
-            android:layout_marginBottom="16dp" />
+            <LinearLayout
+                android:id="@+id/recentCallsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp" />
+        </androidx.cardview.widget.CardView>
 
+        <!-- Setup Card -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Setup"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:layout_marginBottom="12dp" />
+            android:textColor="@color/primary_dark"
+            android:layout_marginBottom="8dp" />
 
-        <Button
-            android:id="@+id/btnGrantPermissions"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="1. Grant Call &amp; Contact Permissions"
-            android:layout_marginBottom="12dp" />
+            app:cardCornerRadius="14dp"
+            app:cardElevation="4dp">
 
-        <Button
-            android:id="@+id/btnSetDefaultApp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="2. Set as Default Caller ID App"
-            android:layout_marginBottom="12dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-        <Button
-            android:id="@+id/btnOverlayPermission"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="3. Allow Display Over Other Apps"
-            android:layout_marginBottom="12dp" />
+                <Button
+                    android:id="@+id/btnGrantPermissions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="1. Grant Call &amp; Contact Permissions"
+                    android:backgroundTint="@color/primary"
+                    android:layout_marginBottom="10dp" />
 
-        <Button
-            android:id="@+id/btnSyncContacts"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="4. Sync My Contacts to Database" />
+                <Button
+                    android:id="@+id/btnSetDefaultApp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="2. Set as Default Caller ID App"
+                    android:backgroundTint="@color/primary"
+                    android:layout_marginBottom="10dp" />
+
+                <Button
+                    android:id="@+id/btnOverlayPermission"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="3. Allow Display Over Other Apps"
+                    android:backgroundTint="@color/primary"
+                    android:layout_marginBottom="10dp" />
+
+                <Button
+                    android:id="@+id/btnSyncContacts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="4. Sync My Contacts to Database"
+                    android:backgroundTint="@color/accent" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
 </ScrollView>
